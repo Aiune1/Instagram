@@ -1,0 +1,36 @@
+name: Enviar Relatórios Diários
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # Roda todos os dias às 08:00 UTC (05:00 no Brasil)
+  workflow_dispatch:      # Permite executar manualmente
+
+jobs:
+  run-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Rodar sync_midias_organicas.py
+        run: python sync_midias_organicas.py
+
+      - name: Rodar sync_midias_pagas.py
+        run: python sync_midias_pagas.py
+
+      - name: Rodar sync_seguidores.py
+        run: python sync_seguidores.py
+
+      - name: Rodar sync_stories_organicos.py
+        run: python sync_stories_organicos.py
