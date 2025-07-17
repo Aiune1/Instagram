@@ -2,12 +2,19 @@ name: Enviar Relatórios Diários
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Roda todos os dias às 08:00 UTC (05:00 no Brasil)
-  workflow_dispatch:      # Permite executar manualmente
+    - cron: '0 8 * * *'  # Roda todos os dias às 08:00 UTC
+  workflow_dispatch:
 
 jobs:
   run-scripts:
     runs-on: ubuntu-latest
+
+    env:
+      GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      AD_ACCOUNT_ID: ${{ secrets.AD_ACCOUNT_ID }}
 
     steps:
       - name: Clonar repositório
@@ -34,3 +41,4 @@ jobs:
 
       - name: Rodar sync_stories_organicos.py
         run: python sync_stories_organicos.py
+
