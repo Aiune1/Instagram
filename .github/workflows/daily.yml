@@ -31,13 +31,17 @@ jobs:
           pip install -r requirements.txt
 
       - name: Rodar sync_midias_organicas.py
-        run: python ./sync_midias_organicas.py
+        run: python ./Instagram/sync_midias_organicas.py
 
       - name: Rodar sync_midias_pagas.py
-        run: python ./sync_midias_pagas.py
+        run: python ./Instagram/sync_midias_pagas.py
 
       - name: Rodar sync_seguidores.py
-        run: python ./sync_seguidores.py
+        run: python ./Instagram/sync_seguidores.py
+
+      - name: Rodar sync_stories_organicos.py
+        run: python ./Instagram/sync_stories_organicos.py
+
 
       - name: Rodar sync_stories_organicos.py
         run: python ./sync_stories_organicos.py
