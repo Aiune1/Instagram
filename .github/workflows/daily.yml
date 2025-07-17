@@ -2,22 +2,15 @@ name: Enviar Relatórios Diários
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '0 13 * * *'  # Executa todos os dias às 10h da manhã (horário de Brasília)
   workflow_dispatch:
 
 jobs:
   run-scripts:
     runs-on: ubuntu-latest
 
-    env:
-      GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
-      IG_USER_ID: ${{ secrets.IG_USER_ID }}
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-      AD_ACCOUNT_ID: ${{ secrets.AD_ACCOUNT_ID }}
-
     steps:
-      - name: Clonar repositório
+      - name: Clonar o repositório
         uses: actions/checkout@v3
 
       - name: Instalar Python
@@ -36,10 +29,17 @@ jobs:
       - name: Rodar sync_midias_pagas.py
         run: python ./sync_midias_pagas.py
 
+      - name: Rodar sync_stories_organicos.py
+        run: python ./sync_stories_organicos.py
+
       - name: Rodar sync_seguidores.py
         run: python ./sync_seguidores.py
 
-      - name: Rodar sync_stories_organicos.py
-        run: python ./sync_stories_organicos.py
+    env:
+      GRAPH_TOKEN: ${{ secrets.GRAPH_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+      AD_ACCOUNT_ID: ${{ secrets.AD_ACCOUNT_ID }}
 
 
